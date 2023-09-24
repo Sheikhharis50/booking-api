@@ -6,9 +6,11 @@ The API is written using [NestJS](https://github.com/nestjs/nest) framework.
 
 ### Components
 
-**Sqlite** - database with typeorm is used to manage the data.
-**Jest** - is used as a testing framework to write end-to-end test cases.
-**Pretter** - is used to lint the code properly.
+**_Sqlite_** - database with typeorm is used to manage the data.
+
+**_Jest_** - is used as a testing framework to write end-to-end test cases.
+
+**_Prettier_** - is used to lint the code properly.
 
 ### Modules
 
