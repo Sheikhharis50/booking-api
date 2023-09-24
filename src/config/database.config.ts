@@ -9,7 +9,7 @@ export default registerAs(
       process.env.DATABASE_NAME || 'bookings'
     }.sqlite3`,
     logging: JSON.parse(process.env.DATABASE_LOGGING || 'false'),
-    entities: [process.cwd() + '/**/*.entity{.ts,.js}'],
+    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
     synchronize: true,
   }),
 );

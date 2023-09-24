@@ -9,6 +9,7 @@ import { RoleModule } from './api/role/role.module';
 import { BookingService } from './api/booking/booking.service';
 import { BookingController } from './api/booking/booking.controller';
 import { BookingModule } from './api/booking/booking.module';
+import { PermissionModule } from './api/permission/permission.module';
 import globalConfig from './config/global.config';
 import databaseConfig from './config/database.config';
 
@@ -27,6 +28,7 @@ import databaseConfig from './config/database.config';
     AgentModule,
     RoleModule,
     BookingModule,
+    PermissionModule,
   ],
   controllers: [AppController, BookingController],
   providers: [AppService, BookingService],
