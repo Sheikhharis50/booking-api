@@ -1,6 +1,6 @@
-import { Controller, Get, HttpStatus, Param } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
 import { AgentService } from './agent.service';
-import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { AgentAuthHeader } from '@/middlewares/agent-auth';
 
 @ApiTags('Agent')
@@ -9,14 +9,12 @@ import { AgentAuthHeader } from '@/middlewares/agent-auth';
 export class AgentController {
   constructor(private readonly agentService: AgentService) {}
 
-  @Get('/list')
-  @ApiResponse({ status: HttpStatus.OK, description: 'Agents List' })
+  @Get('/')
   async list() {
     return this.agentService.list();
   }
 
-  @Get('/:id/find')
-  @ApiResponse({ status: HttpStatus.OK, description: 'Agent Record' })
+  @Get('/:id')
   async find(@Param('id') id: string) {
     return this.agentService.find(parseInt(id));
   }

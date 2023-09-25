@@ -21,8 +21,8 @@ export class AgentModule implements NestModule {
     consumer
       .apply(AgentAuthMiddleware)
       .forRoutes(
-        { path: '/agent/list', method: RequestMethod.GET },
-        { path: '/agent/:id/find', method: RequestMethod.GET },
+        { path: '/agent', method: RequestMethod.GET },
+        { path: '/agent/:id', method: RequestMethod.GET },
       );
   }
 }

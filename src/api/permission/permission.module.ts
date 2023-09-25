@@ -20,6 +20,9 @@ export class PermissionModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(AgentAuthMiddleware)
-      .forRoutes({ path: '/permission/list', method: RequestMethod.GET });
+      .forRoutes(
+        { path: '/permission', method: RequestMethod.GET },
+        { path: '/permission', method: RequestMethod.POST },
+      );
   }
 }

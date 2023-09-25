@@ -2,12 +2,11 @@ import {
   Body,
   Controller,
   Get,
-  HttpStatus,
   Post,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiHeader, ApiTags } from '@nestjs/swagger';
 import { RoleService } from './role.service';
 import { AgentAuthHeader } from '@/middlewares/agent-auth';
 import { CreateRoleDto } from './role.dto';
@@ -18,15 +17,13 @@ import { CreateRoleDto } from './role.dto';
 export class RoleController {
   constructor(private readonly rolesService: RoleService) {}
 
-  @Get('/list')
-  @ApiResponse({ status: HttpStatus.OK, description: 'Roles List' })
+  @Get('/')
   async list() {
     return this.rolesService.list();
   }
 
-  @Post('/create')
+  @Post('/')
   @UsePipes(new ValidationPipe())
-  @ApiResponse({ status: HttpStatus.CREATED, description: 'Role is created' })
   async create(@Body() createDto: CreateRoleDto) {
     return this.rolesService.create(createDto);
   }

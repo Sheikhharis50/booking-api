@@ -12,6 +12,10 @@ import { Repository } from 'typeorm';
 
 export const AgentAuthHeader = 'X-Agent-Id';
 
+export interface AgentAuthRequest extends Request {
+  agent: Agent;
+}
+
 @Injectable()
 export class AgentAuthMiddleware implements NestMiddleware {
   private readonly ACCESS = {
@@ -27,7 +31,7 @@ export class AgentAuthMiddleware implements NestMiddleware {
     private readonly agentRepository: Repository<Agent>,
   ) {}
 
-  async use(req: Request, res: Response, next: NextFunction) {
+  async use(req: AgentAuthRequest, res: Response, next: NextFunction) {
     const agentId = req.headers[AgentAuthHeader.toLowerCase()];
     const type = this.ACCESS[req.method];
     const module = req.path.split('/')[2];
@@ -59,6 +63,7 @@ export class AgentAuthMiddleware implements NestMiddleware {
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     }
 
+    req.agent = agent;
     next();
   }
 }

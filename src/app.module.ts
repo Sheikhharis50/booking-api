@@ -6,8 +6,6 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserModule } from './api/user/user.module';
 import { AgentModule } from './api/agent/agent.module';
 import { RoleModule } from './api/role/role.module';
-import { BookingService } from './api/booking/booking.service';
-import { BookingController } from './api/booking/booking.controller';
 import { BookingModule } from './api/booking/booking.module';
 import { PermissionModule } from './api/permission/permission.module';
 import globalConfig from './config/global.config';
@@ -30,7 +28,7 @@ import databaseConfig from './config/database.config';
     BookingModule,
     PermissionModule,
   ],
-  controllers: [AppController, BookingController],
-  providers: [AppService, BookingService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

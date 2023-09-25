@@ -19,9 +19,9 @@ export class Booking extends GenericEntity {
   @Column({ type: 'int' })
   agentId: number;
 
-  @Column({ type: 'datetime' })
-  startAt: Date;
+  @Column({ type: 'varchar', length: 100 })
+  startAt: string;
 
-  @Column({ type: 'datetime' })
-  finishAt: Date;
+  @Column({ type: 'varchar', length: 100 })
+  finishAt: string;
 }

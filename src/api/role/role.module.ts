@@ -22,9 +22,8 @@ export class RoleModule implements NestModule {
     consumer
       .apply(AgentAuthMiddleware)
       .forRoutes(
-        { path: '/role/list', method: RequestMethod.GET },
-        { path: '/role/create', method: RequestMethod.POST },
-        { path: '/role/:id/delete', method: RequestMethod.DELETE },
+        { path: '/role', method: RequestMethod.GET },
+        { path: '/role', method: RequestMethod.POST },
       );
   }
 }
