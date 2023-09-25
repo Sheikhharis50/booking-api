@@ -7,8 +7,12 @@ import {
 import { AgentService } from './agent.service';
 import { AgentController } from './agent.controller';
 import { AuthMiddleware } from '@/middlewares/auth';
+import { Agent } from './agent.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Role } from '../role/role.entity';
 
 @Module({
+  imports: [TypeOrmModule.forFeature([Agent, Role])],
   providers: [AgentService],
   controllers: [AgentController],
 })

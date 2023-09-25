@@ -39,9 +39,9 @@ export class PermissionService {
       );
 
       return instance;
-    } catch (err) {
-      console.error(err);
-      if (err instanceof HttpException) throw err;
+    } catch (error) {
+      console.error(error);
+      if (error instanceof HttpException) throw error;
       throw new HttpException('Failed', HttpStatus.BAD_REQUEST);
     }
   }

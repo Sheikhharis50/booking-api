@@ -9,9 +9,10 @@ import { PermissionService } from './permission.service';
 import { Permission } from './permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthMiddleware } from '@/middlewares/auth';
+import { Agent } from '../agent/agent.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Permission])],
+  imports: [TypeOrmModule.forFeature([Permission, Agent])],
   controllers: [PermissionController],
   providers: [PermissionService],
 })

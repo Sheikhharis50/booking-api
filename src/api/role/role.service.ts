@@ -50,9 +50,9 @@ export class RoleService {
       );
 
       return instance;
-    } catch (err) {
-      console.error(err);
-      if (err instanceof HttpException) throw err;
+    } catch (error) {
+      console.error(error);
+      if (error instanceof HttpException) throw error;
       throw new HttpException('Failed', HttpStatus.BAD_REQUEST);
     }
   }
@@ -72,9 +72,9 @@ export class RoleService {
       this.roleRepository.save(instance);
 
       return 'Role is deleted';
-    } catch (err) {
-      console.error(err);
-      if (err instanceof HttpException) throw err;
+    } catch (error) {
+      console.error(error);
+      if (error instanceof HttpException) throw error;
       throw new HttpException('Failed', HttpStatus.BAD_REQUEST);
     }
   }

@@ -10,9 +10,10 @@ import { AuthMiddleware } from '@/middlewares/auth';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Role } from './role.entity';
 import { Permission } from '../permission/permission.entity';
+import { Agent } from '../agent/agent.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Role, Permission])],
+  imports: [TypeOrmModule.forFeature([Role, Permission, Agent])],
   controllers: [RoleController],
   providers: [RoleService],
 })
