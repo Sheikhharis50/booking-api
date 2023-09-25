@@ -20,4 +20,10 @@ describe('Agent', () => {
   afterAll(async () => {
     await app.close();
   });
+
+  describe('GET /agent', () => {
+    it('should return 200 status', async () => {
+      return server.get('/agent').expect(200);
+    });
+  });
 });
