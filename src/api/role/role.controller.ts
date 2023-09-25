@@ -9,11 +9,11 @@ import {
 } from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { RoleService } from './role.service';
-import { AuthHeader } from '@/middlewares/auth';
+import { AgentAuthHeader } from '@/middlewares/agent-auth';
 import { CreateRoleDto } from './role.dto';
 
 @ApiTags('Roles')
-@ApiHeader({ name: AuthHeader, required: true })
+@ApiHeader({ name: AgentAuthHeader, required: true })
 @Controller('/role')
 export class RoleController {
   constructor(private readonly rolesService: RoleService) {}

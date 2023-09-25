@@ -8,7 +8,7 @@ import { PermissionController } from './permission.controller';
 import { PermissionService } from './permission.service';
 import { Permission } from './permission.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthMiddleware } from '@/middlewares/auth';
+import { AgentAuthMiddleware } from '@/middlewares/agent-auth';
 import { Agent } from '../agent/agent.entity';
 
 @Module({
@@ -19,7 +19,7 @@ import { Agent } from '../agent/agent.entity';
 export class PermissionModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
+      .apply(AgentAuthMiddleware)
       .forRoutes({ path: '/permission/list', method: RequestMethod.GET });
   }
 }

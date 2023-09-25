@@ -8,12 +8,12 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { AuthHeader } from '@/middlewares/auth';
+import { AgentAuthHeader } from '@/middlewares/agent-auth';
 import { PermissionService } from './permission.service';
 import { CreatePermissionDto } from './permission.dto';
 
 @ApiTags('Permission')
-@ApiHeader({ name: AuthHeader, required: true })
+@ApiHeader({ name: AgentAuthHeader, required: true })
 @Controller('/permission')
 export class PermissionController {
   constructor(private readonly permissionsService: PermissionService) {}

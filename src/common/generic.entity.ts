@@ -10,6 +10,6 @@ export abstract class GenericEntity {
   })
   created_at: Date;
 
-  @Column({ type: 'boolean', default: false })
+  @Column({ type: 'boolean', default: false, select: false })
   isDeleted: boolean;
 }

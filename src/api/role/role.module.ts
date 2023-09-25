@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { RoleController } from './role.controller';
 import { RoleService } from './role.service';
-import { AuthMiddleware } from '@/middlewares/auth';
+import { AgentAuthMiddleware } from '@/middlewares/agent-auth';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Role } from './role.entity';
 import { Permission } from '../permission/permission.entity';
@@ -20,7 +20,7 @@ import { Agent } from '../agent/agent.entity';
 export class RoleModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
+      .apply(AgentAuthMiddleware)
       .forRoutes(
         { path: '/role/list', method: RequestMethod.GET },
         { path: '/role/create', method: RequestMethod.POST },

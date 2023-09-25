@@ -10,10 +10,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Request, Response, NextFunction } from 'express';
 import { Repository } from 'typeorm';
 
-export const AuthHeader = 'X-Agent-Id';
+export const AgentAuthHeader = 'X-Agent-Id';
 
 @Injectable()
-export class AuthMiddleware implements NestMiddleware {
+export class AgentAuthMiddleware implements NestMiddleware {
   private readonly ACCESS = {
     GET: PermissionType.READ,
     POST: PermissionType.WRITE,
@@ -28,7 +28,7 @@ export class AuthMiddleware implements NestMiddleware {
   ) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const agentId = req.headers[AuthHeader.toLowerCase()];
+    const agentId = req.headers[AgentAuthHeader.toLowerCase()];
     const type = this.ACCESS[req.method];
     const module = req.path.split('/')[2];
 

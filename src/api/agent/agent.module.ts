@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { AgentService } from './agent.service';
 import { AgentController } from './agent.controller';
-import { AuthMiddleware } from '@/middlewares/auth';
+import { AgentAuthMiddleware } from '@/middlewares/agent-auth';
 import { Agent } from './agent.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Role } from '../role/role.entity';
@@ -19,7 +19,10 @@ import { Role } from '../role/role.entity';
 export class AgentModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(AuthMiddleware)
-      .forRoutes({ path: '/agents', method: RequestMethod.GET });
+      .apply(AgentAuthMiddleware)
+      .forRoutes(
+        { path: '/agent/list', method: RequestMethod.GET },
+        { path: '/agent/:id/find', method: RequestMethod.GET },
+      );
   }
 }

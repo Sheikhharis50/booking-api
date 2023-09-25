@@ -15,6 +15,7 @@ export class AgentService {
       where: {
         isDeleted: false,
       },
+      relations: ['user', 'role'],
     });
   }
 
@@ -31,8 +32,6 @@ export class AgentService {
       if (!instance) {
         throw new HttpException('Agent not found', HttpStatus.NOT_FOUND);
       }
-
-      console.log(instance);
 
       return instance;
     } catch (error) {
