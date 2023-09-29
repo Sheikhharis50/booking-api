@@ -17,8 +17,17 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest-e2e.json",
-    "seed:config": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js config -r src/ -n ormconfig.ts",
-    "seed:run": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -r src/ -n ormconfig.ts"
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js -d ./src/database/datasource.ts",
+    "migrate:create": "yarn typeorm migrations:create",
+    "migrate:generate": "yarn typeorm migrations:generate",
+    "migrate:run": "yarn typeorm migration:run -d ./src/database/datasource.ts",
+    "schema:drop": "yarn typeorm schema:drop",
+    "schema:sync": "yarn typeorm schema:sync",
+    "schema:log": "yarn typeorm schema:log",
+    "seeder": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js",
+    "seeder:config": "yarn seeder config -r src/ -n ormconfig.ts",
+    "seeder:run": "yarn seeder seed -r src/ -n ormconfig.ts",
+    "db:init": "yarn schema:drop && yarn schema:sync && yarn seeder:run"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -27,6 +36,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.1.12",
     "@nestjs/typeorm": "^10.0.0",
+    "@ngneat/falso": "^7.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "reflect-metadata": "^0.1.13",
