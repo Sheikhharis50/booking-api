@@ -17,8 +17,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./jest-e2e.json",
-    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config -r src/ -n ormconfig.ts",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -r src/ -n ormconfig.ts"
+    "seed:config": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js config -r src/ -n ormconfig.ts",
+    "seed:run": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -r src/ -n ormconfig.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
