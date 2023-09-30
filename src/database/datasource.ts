@@ -1,15 +1,17 @@
 import { DataSource } from 'typeorm';
 import configs from '../config/database';
+import env from '../utils/env';
+import { join } from 'path';
 
 export default (() => {
   const dbConfig = { ...configs() };
   return new DataSource({
     type: 'sqlite',
-    database: dbConfig.database.toString(),
+    database: join('dist', `${env('DATABASE_NAME') || 'bookings'}.sqlite3`),
     entities: dbConfig.entities,
     migrations: dbConfig.migrations,
     logger: 'advanced-console',
-    logging: true,
-    synchronize: false,
+    logging: dbConfig.logging,
+    synchronize: dbConfig.synchronize,
   });
 })();

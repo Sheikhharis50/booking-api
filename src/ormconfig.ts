@@ -1,17 +1,5 @@
 import { join } from 'path';
-import { config } from 'dotenv';
-
-const envConfig = config({
-  path: join(
-    __dirname,
-    '../',
-    `.env${process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''}`,
-  ),
-});
-
-function env(key: string) {
-  return ('parsed' in envConfig && envConfig.parsed[key]) || process.env[key];
-}
+import env from './utils/env';
 
 const baseConfig = {
   type: 'sqlite',
@@ -19,21 +7,11 @@ const baseConfig = {
   entities: [join(__dirname, '**/*.entity{.ts,.js}')],
   migrations: [join(__dirname, 'database/migrations/**/*.ts')],
   logger: 'advanced-console',
-  logging: true,
+  logging: ['warn', 'error'],
+  synchronize: false,
   cli: {
     migrationsDir: join('src/database/migrations'),
   },
 };
 
-if (env('NODE_ENV') !== 'test') {
-  module.exports = {
-    synchronize: false,
-    ...baseConfig,
-  };
-} else {
-  module.exports = {
-    dropSchema: true,
-    synchronize: true,
-    ...baseConfig,
-  };
-}
+module.exports = baseConfig;

@@ -46,7 +46,7 @@ export class PermissionService {
       );
 
       return {
-        statusCode: HttpStatus.OK,
+        statusCode: HttpStatus.CREATED,
         data: instance,
       };
     } catch (error) {
