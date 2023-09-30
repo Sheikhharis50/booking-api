@@ -9,8 +9,7 @@ export default (() => {
     entities: dbConfig.entities,
     migrations: dbConfig.migrations,
     logger: 'advanced-console',
-    logging: ['warn', 'error'],
-    dropSchema: true,
-    synchronize: true,
+    logging: true,
+    synchronize: false,
   });
 })();

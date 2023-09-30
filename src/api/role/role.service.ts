@@ -4,6 +4,7 @@ import { Role } from './role.entity';
 import { ILike, In, Repository } from 'typeorm';
 import { CreateRoleDto } from './role.dto';
 import { Permission } from '../permission/permission.entity';
+import { IResponse } from '@/interfaces/response';
 
 @Injectable()
 export class RoleService {
@@ -14,15 +15,20 @@ export class RoleService {
     private readonly permissionRepository: Repository<Permission>,
   ) {}
 
-  async list(): Promise<Role[]> {
-    return this.roleRepository.find({
+  async list(): Promise<IResponse<Role>> {
+    const [roles, count] = await this.roleRepository.findAndCount({
       where: {
         isDeleted: false,
       },
     });
+    return {
+      statusCode: HttpStatus.OK,
+      count,
+      data: roles,
+    };
   }
 
-  async create(createDto: CreateRoleDto): Promise<Role> {
+  async create(createDto: CreateRoleDto): Promise<IResponse<Role>> {
     try {
       if (
         await this.roleRepository.countBy({
@@ -49,7 +55,10 @@ export class RoleService {
         this.roleRepository.create({ ...createDto, permissions }),
       );
 
-      return instance;
+      return {
+        statusCode: HttpStatus.OK,
+        data: instance,
+      };
     } catch (error) {
       console.error(error);
       if (error instanceof HttpException) throw error;
@@ -57,7 +66,7 @@ export class RoleService {
     }
   }
 
-  async delete(id: number): Promise<string> {
+  async delete(id: number): Promise<IResponse> {
     try {
       const instance = await this.roleRepository.findOneBy({
         id,
@@ -71,7 +80,10 @@ export class RoleService {
       instance.isDeleted = true;
       this.roleRepository.save(instance);
 
-      return 'Role is deleted';
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Role is deleted',
+      };
     } catch (error) {
       console.error(error);
       if (error instanceof HttpException) throw error;

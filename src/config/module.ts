@@ -9,8 +9,11 @@ import DatabaseConfig from './database';
       cache: true,
       expandVariables: true,
       isGlobal: true,
+      envFilePath: `.env${
+        process.env.NODE_ENV ? `.${process.env.NODE_ENV}` : ''
+      }`,
       load: [
-        () => ({ app: AppConfig() }),
+        () => ({ ...AppConfig() }),
         () => ({ database: DatabaseConfig() }),
       ],
     }),

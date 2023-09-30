@@ -7,6 +7,7 @@ import { getDateOfIsoWeek, sqliteDateStr } from '@/utils/date';
 import { REQUEST } from '@nestjs/core';
 import { AgentAuthRequest } from '@/middlewares/agent-auth';
 import { User } from '../user/user.entity';
+import { IResponse } from '@/interfaces/response';
 
 @Injectable()
 export class BookingService {
@@ -19,7 +20,7 @@ export class BookingService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async list(query: QueryBooking): Promise<Booking[]> {
+  async list(query: QueryBooking): Promise<IResponse<Booking>> {
     const where = {};
 
     if (query.week) {
@@ -40,16 +41,22 @@ export class BookingService {
       }
     }
 
-    return this.bookingRepository.find({
+    const [bookings, count] = await this.bookingRepository.findAndCount({
       where: {
         ...where,
         isDeleted: false,
       },
       relations: ['user', 'agent'],
     });
+
+    return {
+      statusCode: HttpStatus.OK,
+      count,
+      data: bookings,
+    };
   }
 
-  async create(createDto: CreateBooking): Promise<Booking> {
+  async create(createDto: CreateBooking): Promise<IResponse<Booking>> {
     try {
       const user = await this.userRepository.findOneBy({
         id: createDto.userId,
@@ -60,7 +67,7 @@ export class BookingService {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
 
-      return await this.bookingRepository.save(
+      const instance = await this.bookingRepository.save(
         this.bookingRepository.create({
           ...createDto,
           startAt: sqliteDateStr(createDto.startAt),
@@ -68,6 +75,11 @@ export class BookingService {
           agent: this.request.agent,
         }),
       );
+
+      return {
+        statusCode: HttpStatus.OK,
+        data: instance,
+      };
     } catch (error) {
       console.error(error);
       if (error instanceof HttpException) throw error;
@@ -75,7 +87,7 @@ export class BookingService {
     }
   }
 
-  async delete(id: number): Promise<string> {
+  async delete(id: number): Promise<IResponse> {
     try {
       const instance = await this.bookingRepository.findOneBy({
         id,
@@ -89,7 +101,10 @@ export class BookingService {
       instance.isDeleted = true;
       this.bookingRepository.save(instance);
 
-      return 'Booking is deleted';
+      return {
+        statusCode: HttpStatus.OK,
+        message: 'Booking is deleted',
+      };
     } catch (error) {
       console.error(error);
       if (error instanceof HttpException) throw error;

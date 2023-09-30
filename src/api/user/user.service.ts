@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
+import { IResponse } from '@/interfaces/response';
 
 @Injectable()
 export class UserService {
@@ -10,28 +11,47 @@ export class UserService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  async list(): Promise<User[]> {
-    return this.userRepository.find({
-      where: {
-        isDeleted: false,
-      },
-    });
+  async list(): Promise<IResponse<User>> {
+    const usersQuery = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect(
+        'agent',
+        'agent',
+        'agent.userId = user.id AND (agent.isDeleted = false)',
+      )
+      .where({ isDeleted: false })
+      .andWhere('agent.id is NULL');
+
+    const [users, count] = await usersQuery.getManyAndCount();
+    return {
+      statusCode: HttpStatus.OK,
+      count,
+      data: users,
+    };
   }
 
-  async find(id: number): Promise<User> {
+  async find(id: number): Promise<IResponse<User>> {
     try {
-      const instance = await this.userRepository.findOne({
-        where: {
-          id,
-          isDeleted: false,
-        },
-      });
+      const usersQuery = this.userRepository
+        .createQueryBuilder('user')
+        .leftJoinAndSelect(
+          'agent',
+          'agent',
+          'agent.userId = user.id AND (agent.isDeleted = false)',
+        )
+        .where({ id, isDeleted: false })
+        .andWhere('agent.id is NULL');
+
+      const instance = await usersQuery.getOne();
 
       if (!instance) {
         throw new HttpException('User not found', HttpStatus.NOT_FOUND);
       }
 
-      return instance;
+      return {
+        statusCode: HttpStatus.OK,
+        data: instance,
+      };
     } catch (error) {
       console.error(error);
       if (error instanceof HttpException) throw error;
