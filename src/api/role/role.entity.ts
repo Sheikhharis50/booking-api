@@ -1,5 +1,5 @@
-import { GenericEntity } from '@/common/generic.entity';
 import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { GenericEntity } from '../common/generic.entity';
 import { Permission } from '../permission/permission.entity';
 
 @Entity()

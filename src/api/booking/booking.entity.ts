@@ -1,5 +1,5 @@
-import { GenericEntity } from '@/common/generic.entity';
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { GenericEntity } from '../common/generic.entity';
 import { User } from '../user/user.entity';
 import { Agent } from '../agent/agent.entity';
 

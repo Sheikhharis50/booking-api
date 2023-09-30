@@ -1,27 +1,18 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@/config/module';
+import { DatabaseModule } from '@/database/module';
+import { AppController } from '@/app.controller';
+import { AppService } from '@/app.service';
 import { UserModule } from './api/user/user.module';
 import { AgentModule } from './api/agent/agent.module';
 import { RoleModule } from './api/role/role.module';
 import { BookingModule } from './api/booking/booking.module';
 import { PermissionModule } from './api/permission/permission.module';
-import globalConfig from './config/global.config';
-import databaseConfig from './config/database.config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      cache: true,
-      load: [globalConfig, databaseConfig],
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (config: ConfigService) => config.get('database'),
-      inject: [ConfigService],
-    }),
+    ConfigModule,
+    DatabaseModule,
     UserModule,
     AgentModule,
     RoleModule,

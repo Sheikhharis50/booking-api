@@ -1,5 +1,5 @@
-import { GenericEntity } from '@/common/generic.entity';
 import { Entity, Column, OneToMany } from 'typeorm';
+import { GenericEntity } from '../common/generic.entity';
 import { Booking } from '../booking/booking.entity';
 
 @Entity()
