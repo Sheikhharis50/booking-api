@@ -1,12 +1,12 @@
 {
-  "name": "nest-typescript-starter",
+  "name": "booking-api",
   "private": true,
   "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
+  "description": "booking-api",
   "license": "MIT",
   "scripts": {
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -16,7 +16,18 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./jest-e2e.json"
+    "test:e2e": "NODE_ENV=test yarn db:init && jest --config ./jest-e2e.json",
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js -d src/database/datasource.ts",
+    "migration:create": "yarn typeorm migrations:create",
+    "migration:generate": "yarn typeorm migrations:generate",
+    "migration:run": "yarn typeorm migration:run",
+    "schema:drop": "yarn typeorm schema:drop",
+    "schema:sync": "yarn typeorm schema:sync",
+    "schema:log": "yarn typeorm schema:log",
+    "seeder": "ts-node --project ./tsconfig.json -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js",
+    "seeder:config": "yarn seeder config -n src/ormconfig.ts",
+    "seeder:run": "yarn seeder seed -n src/ormconfig.ts",
+    "db:init": "yarn schema:drop && yarn schema:sync && yarn seeder:run"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -25,12 +36,15 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.1.12",
     "@nestjs/typeorm": "^10.0.0",
+    "@ngneat/falso": "^7.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "dotenv": "^16.3.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "sqlite3": "^5.1.6",
-    "typeorm": "^0.3.17"
+    "typeorm": "^0.3.17",
+    "typeorm-seeding": "^1.6.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.1",

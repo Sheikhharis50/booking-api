@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Permission } from './permission.entity';
 import { ILike, Repository } from 'typeorm';
 import { CreatePermissionDto } from './permission.dto';
+import { IResponse } from '@/interfaces/response';
 
 @Injectable()
 export class PermissionService {
@@ -11,15 +12,21 @@ export class PermissionService {
     private readonly permissionRepository: Repository<Permission>,
   ) {}
 
-  async list(): Promise<Permission[]> {
-    return this.permissionRepository.find({
+  async list(): Promise<IResponse<Permission>> {
+    const [permissions, count] = await this.permissionRepository.findAndCount({
       where: {
         isDeleted: false,
       },
     });
+
+    return {
+      statusCode: HttpStatus.OK,
+      count,
+      data: permissions,
+    };
   }
 
-  async create(createDto: CreatePermissionDto): Promise<Permission> {
+  async create(createDto: CreatePermissionDto): Promise<IResponse<Permission>> {
     try {
       if (
         await this.permissionRepository.countBy({
@@ -38,7 +45,10 @@ export class PermissionService {
         this.permissionRepository.create(createDto),
       );
 
-      return instance;
+      return {
+        statusCode: HttpStatus.CREATED,
+        data: instance,
+      };
     } catch (error) {
       console.error(error);
       if (error instanceof HttpException) throw error;
