@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { DefaultAdminModule } from 'nestjs-admin';
 import { ConfigModule } from '@/config/module';
 import { DatabaseModule } from '@/database/module';
 import { AppController } from '@/app.controller';
@@ -21,7 +20,6 @@ import { routes } from './app.routes';
     PermissionModule,
     ConfigModule,
     DatabaseModule,
-    DefaultAdminModule,
     RouterModule.register(routes),
   ],
   controllers: [AppController],

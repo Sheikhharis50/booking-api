@@ -8,10 +8,7 @@ const baseConfig = {
   username: env('DATABASE_USER') || 'postgres',
   password: env('DATABASE_PASSWORD') || 'password',
   database: env('DATABASE_NAME') || 'bookings',
-  entities: [
-    join(__dirname, '**/*.entity{.ts,.js}'),
-    'node_modules/nestjs-admin/**/*.entity.js',
-  ],
+  entities: [join(__dirname, '**/*.entity{.ts,.js}')],
   migrations: [join(__dirname, 'database/migrations/**/*.ts')],
   logger: 'advanced-console',
   logging: ['warn', 'error'],
