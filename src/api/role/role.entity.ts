@@ -7,7 +7,7 @@ export class Role extends GenericEntity {
   @Column({ type: 'varchar', length: 100 })
   name: string;
 
-  @Column({ type: 'text', length: 1000, default: '' })
+  @Column({ type: 'text', default: '' })
   description: string;
 
   @ManyToMany(() => Permission, (permission) => permission.id)
