@@ -1,7 +1,7 @@
-import { OrmModuleOptions } from '@/interfaces/ormOptions';
+import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { join } from 'path';
 
-export default () =>
+export default (): PostgresConnectionOptions =>
   /*
   |--------------------------------------------------------------------------
   | Database Connection
@@ -13,15 +13,16 @@ export default () =>
   */
 
   ({
-    type: 'sqlite',
-    database: join(
-      'dist',
-      `${process.env.DATABASE_NAME || 'bookings'}.sqlite3`,
-    ),
+    type: 'postgres',
+    host: process.env.DATABASE_HOST || 'localhost',
+    port: parseInt(process.env.DATABASE_PORT || '5432', 10),
+    username: process.env.DATABASE_USER || 'postgres',
+    password: process.env.DATABASE_PASSWORD || 'password',
+    database: process.env.DATABASE_NAME || 'bookings',
     entities: [join(__dirname, '../', '**/*.entity{.ts,.js}')],
     migrations: [join(__dirname, '../', 'database/migrations/**/*{.ts,.js}')],
     migrationsRun: process.env.DATABASE_MIGRATIONS_RUN === 'true',
-    logging: process.env.DATABASE_LOGGING === 'true' || true,
+    logging: (process.env.DATABASE_LOGGING || 'true') === 'true',
     synchronize: process.env.DATABASE_SYNC === 'true',
     dropSchema: process.env.DATABASE_DROPSCHEMA === 'true',
-  } as OrmModuleOptions);
+  });

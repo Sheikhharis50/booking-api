@@ -10,6 +10,6 @@ export class Permission extends GenericEntity {
   @Column({ type: 'varchar', length: 255 })
   type: PermissionType;
 
-  @Column({ type: 'text', length: 1000, default: '' })
+  @Column({ type: 'text', default: '' })
   description: string;
 }
